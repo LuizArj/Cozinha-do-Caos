@@ -1,0 +1,8 @@
+# Godot 4
+.import/
+.godot/
+# OS files
+Thumbs.db
+.DS_Store
+# Logs
+logs/

@@ -1,0 +1,35 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+config/name="A Orquestra do Caos na Cozinha"
+run/main_scene="res://scenes/Main.tscn"
+config/features=PackedStringArray("4.3", "GL Compatibility")
+config/icon="res://icon.svg"
+
+[display]
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[input]
+ui_left={"deadzone":0.2,"events":[{"type":"joy_axis","device":-1,"axis":0,"axis_value":-1.0},{"type":"key","keycode":4194319}]}
+ui_right={"deadzone":0.2,"events":[{"type":"joy_axis","device":-1,"axis":0,"axis_value":1.0},{"type":"key","keycode":4194321}]}
+ui_up={"deadzone":0.2,"events":[{"type":"joy_axis","device":-1,"axis":1,"axis_value":-1.0},{"type":"key","keycode":4194320}]}
+ui_down={"deadzone":0.2,"events":[{"type":"joy_axis","device":-1,"axis":1,"axis_value":1.0},{"type":"key","keycode":4194322}]}
+action={"deadzone":0.2,"events":[{"type":"joy_button","device":-1,"button_index":0},{"type":"key","keycode":32}]}
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+
+[autoload]
+NetInput="*res://scripts/NetInput.gd"

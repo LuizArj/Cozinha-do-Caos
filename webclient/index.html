@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <title>Controle Móvel - Orquestra do Caos</title>
+  <style>
+    html, body { margin:0; height:100%; background:#0f172a; color:#e2e8f0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+    .root { display:flex; flex-direction:column; gap:16px; padding:16px; height:100%; box-sizing:border-box; }
+    .row { display:flex; gap:16px; flex:1; }
+    .panel { flex:1; background:#111827; border-radius:16px; display:flex; align-items:center; justify-content:center; position:relative; }
+    .dpad { width:280px; height:280px; display:grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap:10px; }
+    .arrow { background:#334155; color:#e2e8f0; border:none; border-radius:14px; font-size:28px; box-shadow:0 10px 20px rgba(15,23,42,.4); touch-action:none; }
+    .arrow:active { transform:translateY(1px); filter:brightness(1.1); }
+    .actionWrap { display:flex; align-items:center; justify-content:center; width:100%; height:100%; }
+    .action { width:180px; height:180px; background:#22c55e; border:none; color:#052e16; font-size:28px; font-weight:700; border-radius:999px; box-shadow:0 10px 30px rgba(34,197,94,.5); touch-action:none; }
+    .topbar { display:flex; flex-direction:column; gap:6px; }
+    .ip { font-size:12px; opacity:.8; }
+  </style>
+</head>
+<body>
+  <div class="root">
+    <div class="topbar">
+      <div>Estado: <span id="state">desconectado</span></div>
+      <div class="ip">IP do PC (ex: 192.168.1.10): <input id="ip" placeholder="192.168.x.x" size="15" /> Porta: <input id="port" value="9080" size="5"/> <button id="connect">Conectar</button> Player ID: <input id="pid" value="1" size="3"/></div>
+    </div>
+    <div class="row">
+      <div class="panel">
+        <div class="dpad">
+          <div class="spacer"></div>
+          <button class="arrow" id="up">▲</button>
+          <div class="spacer"></div>
+          <button class="arrow" id="left">◀</button>
+          <div class="spacer"></div>
+          <button class="arrow" id="right">▶</button>
+          <div class="spacer"></div>
+          <button class="arrow" id="down">▼</button>
+          <div class="spacer"></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="actionWrap">
+          <button class="action" id="action">Ação</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const state = document.getElementById('state');
+    const ipEl = document.getElementById('ip');
+    const portEl = document.getElementById('port');
+    const pidEl = document.getElementById('pid');
+    const connectBtn = document.getElementById('connect');
+
+  let ws = null;
+  let lx = 0, ly = 0, action = false;
+
+    function send(){
+      if(ws && ws.readyState === WebSocket.OPEN){
+        ws.send(JSON.stringify({ player_id: parseInt(pidEl.value||'1'), lx, ly, action }));
+      }
+    }
+
+    connectBtn.onclick = () => {
+      try{ ws && ws.close(); }catch{}
+      const url = `ws://${ipEl.value}:${portEl.value}`;
+      ws = new WebSocket(url);
+      ws.onopen = ()=> state.textContent = 'conectado';
+      ws.onclose = ()=> state.textContent = 'desconectado';
+      ws.onerror = ()=> state.textContent = 'erro';
+      ws.onmessage = (ev)=> console.log('server:', ev.data);
+    };
+
+    // Arrow handling (press = set axis, release = reset component)
+    const dirs = {
+      up:    {ax:'y', val:-1},
+      down:  {ax:'y', val: 1},
+      left:  {ax:'x', val:-1},
+      right: {ax:'x', val: 1},
+    };
+
+    function setAxis(ax, v){
+      if(ax==='x') lx = v; else ly = v;
+      send();
+    }
+
+    function bindArrow(id){
+      const el = document.getElementById(id);
+      const {ax, val} = dirs[id];
+      const down = (e)=>{ e.preventDefault(); setAxis(ax, val); };
+      const up = (e)=>{ e.preventDefault(); setAxis(ax, 0); };
+      el.addEventListener('touchstart', down, {passive:false});
+      el.addEventListener('touchend', up, {passive:false});
+      el.addEventListener('mousedown', down);
+      el.addEventListener('mouseup', up);
+      el.addEventListener('mouseleave', up);
+    }
+
+    ['up','down','left','right'].forEach(bindArrow);
+
+    const actionBtn = document.getElementById('action');
+    const setAction = (v)=>{ action = v; send(); actionBtn.style.transform = v? 'scale(0.95)': 'scale(1)'; };
+    actionBtn.addEventListener('touchstart', e=>{ e.preventDefault(); setAction(true); }, {passive:false});
+    actionBtn.addEventListener('touchend', e=>{ e.preventDefault(); setAction(false); }, {passive:false});
+    actionBtn.addEventListener('mousedown', ()=> setAction(true));
+    window.addEventListener('mouseup', ()=> setAction(false));
+  </script>
+</body>
+</html>
