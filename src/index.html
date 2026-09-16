@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cozinha do Caos - Jogo Host</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-wrapper">
+    <!-- Barra Superior / Menu Host -->
+    <nav class="top-nav">
+      <div class="logo">
+        <span class="emoji">🍳</span>
+        <span class="title">COZINHA DO CAOS</span>
+      </div>
+      <div class="nav-actions">
+        <button id="btn-sound-toggle" class="nav-btn">🔊 Som Ativo</button>
+        <button id="btn-fullscreen" class="nav-btn">⛶ Tela Cheia</button>
+      </div>
+    </nav>
+
+    <!-- Canvas Principal do Jogo -->
+    <div class="canvas-container">
+      <canvas id="game-canvas"></canvas>
+    </div>
+
+    <!-- Barra Inferior de Dicas -->
+    <footer class="game-footer">
+      <div class="hint-item">🎮 Conecte seus amigos pelo celular lendo o QR Code</div>
+      <div class="hint-item">🔥 Cuidado com os fogões para não queimar e incendiar a cozinha!</div>
+    </footer>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

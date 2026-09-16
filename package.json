@@ -1,0 +1,16 @@
+{
+  "name": "cozinha-do-caos",
+  "version": "2.0.0",
+  "description": "Cozinha do Caos - Jogo cooperativo estilo Overcooked em 2D RPG com controle pelo celular via QR Code",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "ws": "^8.18.0",
+    "qrcode": "^1.5.4"
+  }
+}

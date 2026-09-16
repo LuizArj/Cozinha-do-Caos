@@ -1,8 +1,19 @@
-# Godot 4
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+dist/
+
+# Godot 4 (legacy)
 .import/
 .godot/
+
 # OS files
 Thumbs.db
 .DS_Store
+
 # Logs
 logs/
+*.log

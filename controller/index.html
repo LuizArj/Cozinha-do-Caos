@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Cozinha do Caos - Controle Mobile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="controller.css">
+</head>
+<body>
+  <!-- Tela de Entrada / Setup -->
+  <div id="setup-screen" class="screen active">
+    <div class="setup-card">
+      <div class="brand">
+        <span class="logo-icon">🍳</span>
+        <h1>Cozinha do Caos</h1>
+        <p class="subtitle">Controle de Chef</p>
+      </div>
+
+      <div class="form-group">
+        <label for="player-name">Seu Nome / Apelido:</label>
+        <input type="text" id="player-name" placeholder="Ex: Chef Luigi" maxlength="12" value="Chef Master">
+      </div>
+
+      <div class="form-group">
+        <label>Escolha a Cor do seu Chef:</label>
+        <div class="color-picker" id="color-picker">
+          <button type="button" class="color-opt selected" data-color="#EF4444" style="--c: #EF4444;"></button>
+          <button type="button" class="color-opt" data-color="#3B82F6" style="--c: #3B82F6;"></button>
+          <button type="button" class="color-opt" data-color="#10B981" style="--c: #10B981;"></button>
+          <button type="button" class="color-opt" data-color="#F59E0B" style="--c: #F59E0B;"></button>
+          <button type="button" class="color-opt" data-color="#8B5CF6" style="--c: #8B5CF6;"></button>
+          <button type="button" class="color-opt" data-color="#EC4899" style="--c: #EC4899;"></button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="room-code">Código da Sala:</label>
+        <input type="text" id="room-code" value="CAOS" maxlength="6" style="text-transform: uppercase;">
+      </div>
+
+      <button id="btn-join" class="btn-primary">
+        <span>ENTRAR NA COZINHA</span> 🔪
+      </button>
+
+      <div id="conn-status" class="status-msg"></div>
+    </div>
+  </div>
+
+  <!-- Tela de Controle do Jogo -->
+  <div id="gamepad-screen" class="screen">
+    <!-- Barra Superior -->
+    <header class="controller-header">
+      <div class="chef-badge">
+        <div class="chef-avatar" id="badge-avatar">👨‍🍳</div>
+        <div class="chef-meta">
+          <span class="chef-name" id="badge-name">Chef Master</span>
+          <span class="chef-status" id="badge-status">Conectado</span>
+        </div>
+      </div>
+
+      <div class="holding-badge" id="holding-badge">
+        <span class="holding-label">Mãos:</span>
+        <span class="holding-icon" id="holding-icon">👋</span>
+        <span class="holding-text" id="holding-text">Vazias</span>
+      </div>
+
+      <button id="btn-reconnect" class="btn-icon" title="Reconectar">🔄</button>
+    </header>
+
+    <!-- Área de Jogo / Joystick e Botões -->
+    <main class="controller-body">
+      <!-- Joystick Virtual (Esquerda) -->
+      <div class="joystick-zone" id="joystick-zone">
+        <div class="joystick-base" id="joystick-base">
+          <div class="joystick-stick" id="joystick-stick"></div>
+          <div class="joystick-dir d-up">▲</div>
+          <div class="joystick-dir d-down">▼</div>
+          <div class="joystick-dir d-left">◀</div>
+          <div class="joystick-dir d-right">▶</div>
+        </div>
+        <div class="zone-hint">MOVER CHEF</div>
+      </div>
+
+      <!-- Botões de Ação (Direita) -->
+      <div class="actions-zone">
+        <div class="action-buttons-grid">
+          <!-- Botão Dash / Corrida -->
+          <button id="btn-dash" class="game-btn btn-dash" data-action="dash">
+            <span class="btn-icon">⚡</span>
+            <span class="btn-label">CORRER</span>
+          </button>
+
+          <!-- Botão B: Ação / Cortar / Lavar -->
+          <button id="btn-action-b" class="game-btn btn-action-b" data-action="actionB">
+            <span class="btn-icon">🔪</span>
+            <span class="btn-label">AÇÃO / CORTAR</span>
+          </button>
+
+          <!-- Botão A: Pegar / Largar / Prato -->
+          <button id="btn-action-a" class="game-btn btn-action-a" data-action="actionA">
+            <span class="btn-icon">✋</span>
+            <span class="btn-label">PEGAR / SOLTAR</span>
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="controller.js"></script>
+</body>
+</html>

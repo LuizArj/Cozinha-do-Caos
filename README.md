@@ -1,50 +1,64 @@
-# A Orquestra do Caos na Cozinha (MVP Sprint 1)
+# 🍳 Cozinha do Caos (Chaos Kitchen 2.0)
 
-Este repositório contém um projeto Godot 4 com:
-- Cena principal com servidor WebSocket embutido (porta 9080)
-- Cena de jogador 2D simples com movimento (teclado/gamepad ou celular via WebSocket)
-- Cliente web móvel minimalista (joystick virtual + botão de ação)
+Jogo cooperativo dinâmico de cozinha estilo **Overcooked / 2D RPG**, onde a tela principal (Host/TV/PC) exibe o restaurante e até 4 jogadores entram usando seus **próprios celulares como controle via QR Code** (sem instalar aplicativo nenhum!), ou jogando direto no **teclado do PC**.
 
-## Requisitos
-- Godot 4.3+ (GL Compatibility)
-- PC Windows (funciona em máquinas fracas)
+---
 
-## Como rodar (Godot)
-1. Abra o Godot e carregue a pasta do projeto.
-2. Pressione Play para iniciar.
-3. Na tela, no canto superior esquerdo, aparecerá algo como: `Conecte-se: ws://192.168.x.x:9080`.
-	Na aba Output você verá o mesmo endereço.
+## 🚀 Como Executar
 
-## Como conectar pelo celular
-1. Identifique o IP do seu PC na rede local (Ex: 192.168.1.10).
-2. Sirva a pasta `webclient` via um servidor local simples e acesse do celular na mesma rede.
+### 1. Iniciar o Servidor
+Certifique-se de ter o [Node.js](https://nodejs.org) instalado e execute no terminal:
 
-### Servir a pasta `webclient` no Windows (PowerShell)
-Você pode usar Python (se instalado) ou Node.js (http-server). Escolha um:
-
-- Python 3:
-```
-python -m http.server 8081 --directory "webclient"
-```
-Acesse no celular: `http://SEU_IP:8081/`
-
-- Node.js (instale o pacote http-server globalmente uma vez):
-```
-npm install -g http-server
-http-server webclient -p 8081 -c-1
+```bash
+npm install
+npm start
 ```
 
-3. Na página, digite o IP do PC e a porta 9080, clique Conectar.
-4. Use o joystick virtual e o botão de ação. O player no Godot deve se mover.
+### 2. Abrir o Jogo
+- **Na TV / Monitor Principal (Host):**
+  Acesse no navegador: `http://localhost:3000`
+- **Nos Celulares dos Jogadores:**
+  Basta apontar a câmera do celular para o **QR Code** na tela do jogo ou acessar a URL mostrada (ex: `http://192.168.x.x:3000/controller`).
 
-## Notas
-- O botão de ação já é enviado pelo cliente, mas ainda não faz nada no jogo. Vamos ligar à mecânica de pegar/soltar em sprints seguintes.
-- O projeto usa um Autoload `NetInput` (ver `project.godot`).
-- Para XInput, as ações `ui_*` já funcionam com gamepads. Ajuste mapeamentos conforme necessário em Project Settings > Input Map.
+---
 
-## Próximos passos sugeridos
-- Adicionar lobby simples que mostre IP/QR para conexão.
-- Implementar ação de pegar/soltar (interações com `Area2D`).
-- Adicionar 2-3 ingredientes e estações de trabalho básicas.
+## 🎮 Controles
 
-Dica Windows: se o firewall perguntar, permita o Godot na rede privada para a porta 9080.
+### 📱 No Celular (Mobile Controller):
+- **Joystick Virtual (Esquerda):** Mover o Chef livremente em 360°.
+- **Botão Verde (✋ PEGAR / SOLTAR):** Pega ingredientes, apoia itens nas bancadas e monta receitas no prato.
+- **Botão Vermelho (🔪 AÇÃO / CORTAR):** Pica ingredientes na tábua, apaga fogo com extintor e lava louça na pia.
+- **Botão Amarelo (⚡ CORRER):** Dá um Dash rápido para atravessar a cozinha com agilidade.
+
+### 💻 No Teclado do PC (Local Host):
+- **Movimentação:** `W, A, S, D` ou `Setas`
+- **Pegar / Soltar:** `ESPAÇO` ou `J`
+- **Ação / Cortar / Lavar:** `E` ou `K`
+- **Correr (Dash):** `SHIFT`
+- **Iniciar / Reiniciar Partida:** `ENTER`
+
+---
+
+## 🍔 Receitas e Mecânicas
+
+| Receita | Ingredientes Necessários | Pontos Base |
+|---|---|---|
+| **Hambúrguer Simples** | Pão + Hambúrguer Grelhado | 100 pts |
+| **Cheeseburger** | Pão + Hambúrguer Grelhado + Queijo Fatiado | 150 pts |
+| **Hambúrguer Salada** | Pão + Hambúrguer Grelhado + Alface Picada + Tomate Picado | 180 pts |
+| **X-Tudo do Caos** | Pão + Hambúrguer Grelhado + Queijo + Alface + Tomate | 240 pts |
+| **Salada Fresca** | Alface Picada + Tomate Picado no Prato | 130 pts |
+
+### ⚠️ Elementos do Caos:
+- **Tábua de Corte:** Ingredientes crus (carne, tomate, alface, queijo) precisam ser cortados antes do uso.
+- **Fogão & Fritura:** O hambúrguer grelha no fogão. Se deixado por muito tempo além do ponto, **queima e pega fogo**!
+- **Extintor de Incêndio:** Se o fogão pegar fogo, pegue o extintor e segure a Ação para salvar o restaurante.
+- **Pia de Louça:** Lave pratos sujos para poder montar novos pedidos.
+- **Gorjetas por Rapidez:** Entregar pedidos rapidamente concede bônus de gorjeta de até +50 pts!
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+- **Backend:** Node.js, Express, WebSockets (`ws`), `qrcode`
+- **Frontend Host:** HTML5 Canvas 2D, Web Audio API procedural, JavaScript Modular
+- **Mobile Controller:** Touch Events com prevenção de pull-to-refresh e feedback háptico (`navigator.vibrate`)
